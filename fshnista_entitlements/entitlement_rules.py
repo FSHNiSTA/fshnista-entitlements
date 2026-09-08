@@ -47,8 +47,18 @@ from .entitlements import Tier, is_merchant, is_pro
 # constant's old name retired together when it moves onto get_module_tier.
 BOOKING_MANAGER_PRO_MONTHLY_CAP = 5
 
-# Pro's included listing allowance on Storefront. A stock cap, never resets.
-STOREFRONT_PRO_LISTING_CAP = 10
+# Pro's included listing allowance on Storefront. A stock cap, never resets,
+# and it counts every product a seller has ever created, archived included:
+# DELETE in Storefront only archives, so a slot is never given back.
+#
+# 10 until 2026-09-08, then 5 on Henry's word. The team's argument: ten was
+# enough that a small seller never met Merchant, so the free allowance ate
+# its own upgrade path. Measured first: of 16 selling accounts, 12 held two
+# or fewer products and the four above five all carry overrides, so the
+# change stops nobody who is selling today. The reason text below has to
+# say that deleting frees nothing, or the first support ticket is "I deleted
+# it, why does it still count".
+STOREFRONT_PRO_LISTING_CAP = 5
 
 
 @dataclass(frozen=True)
@@ -65,7 +75,7 @@ class EntitlementDecision:
 # Decided deliberately during the Storefront build, full marketplace access
 # is the Pro value proposition, there is no diluted free version of it.
 #
-# Past the door, Pro carries ten listings as a stock cap that never resets.
+# Past the door, Pro carries five listings as a stock cap that never resets.
 # Merchant, priced 2026-08-13, removes it. check_storefront_access answers
 # "can this member use Storefront at all"; check_storefront_listing_cap
 # answers "can they create one more", and is only meaningful once the first
@@ -95,7 +105,8 @@ def check_storefront_listing_cap(
         allowed=False,
         reason=(
             f"You've used all {STOREFRONT_PRO_LISTING_CAP} listings included "
-            f"with Pro. Upgrade to Storefront Merchant for unlimited listings."
+            f"with Pro, and deleting a listing does not free its slot. "
+            f"Storefront Merchant has unlimited listings."
         ),
     )
 
