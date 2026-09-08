@@ -47,17 +47,17 @@ from .entitlements import Tier, is_merchant, is_pro
 # constant's old name retired together when it moves onto get_module_tier.
 BOOKING_MANAGER_PRO_MONTHLY_CAP = 5
 
-# Pro's included listing allowance on Storefront. A stock cap, never resets,
-# and it counts every product a seller has ever created, archived included:
-# DELETE in Storefront only archives, so a slot is never given back.
+# Pro's included listing allowance on Storefront: how many listings a seller
+# may hold at once. It does not reset on a calendar, and **deleting a listing
+# frees its slot** (Henry, 2026-09-08: "that should be the flexibility"). The
+# counting is Storefront's job, in app/routes/products.py, which excludes
+# archived rows; this constant is only the number.
 #
 # 10 until 2026-09-08, then 5 on Henry's word. The team's argument: ten was
 # enough that a small seller never met Merchant, so the free allowance ate
 # its own upgrade path. Measured first: of 16 selling accounts, 12 held two
 # or fewer products and the four above five all carry overrides, so the
-# change stops nobody who is selling today. The reason text below has to
-# say that deleting frees nothing, or the first support ticket is "I deleted
-# it, why does it still count".
+# change stops nobody who is selling today.
 STOREFRONT_PRO_LISTING_CAP = 5
 
 
@@ -75,7 +75,7 @@ class EntitlementDecision:
 # Decided deliberately during the Storefront build, full marketplace access
 # is the Pro value proposition, there is no diluted free version of it.
 #
-# Past the door, Pro carries five listings as a stock cap that never resets.
+# Past the door, Pro carries five listings at a time; deleting one frees its slot.
 # Merchant, priced 2026-08-13, removes it. check_storefront_access answers
 # "can this member use Storefront at all"; check_storefront_listing_cap
 # answers "can they create one more", and is only meaningful once the first
@@ -105,8 +105,8 @@ def check_storefront_listing_cap(
         allowed=False,
         reason=(
             f"You've used all {STOREFRONT_PRO_LISTING_CAP} listings included "
-            f"with Pro, and deleting a listing does not free its slot. "
-            f"Storefront Merchant has unlimited listings."
+            f"with Pro. Delete one to free a slot, or go Storefront Merchant "
+            f"for unlimited listings."
         ),
     )
 
