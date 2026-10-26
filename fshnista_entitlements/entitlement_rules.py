@@ -18,7 +18,7 @@ Purpose
     decision with a human-readable reason. The reason matters, it is what
     gets surfaced to the user as the upgrade prompt copy. **Never write "for
     more" onto a member who is already at the tier being offered** for the
-    same reason CLAUDE.md locks: it has already been caught twice, once
+    same reason the project brief locks: it has already been caught twice, once
     here.
 
 Usage (inside a module's route handler)
@@ -117,7 +117,7 @@ def check_storefront_listing_cap(
 # Pro-only door, matching Storefront and Map Discovery. Corrected
 # 2026-08-13: this file previously let free tier confirm 5 bookings a month
 # with no Pro required at all, the one module that never actually matched
-# "Pro is a key, not a purchase" (CLAUDE.md), and its own denial copy
+# "Pro is a key, not a purchase" (the project brief), and its own denial copy
 # already said "Merchant removes the limit" for a tier nothing checked yet.
 # Henry, 2026-08-13, choosing to bring it in line rather than leave it the
 # platform's one freemium exception: free tier drops to zero.
