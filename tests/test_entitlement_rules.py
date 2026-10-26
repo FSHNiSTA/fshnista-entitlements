@@ -36,7 +36,7 @@ def test_is_pro_admits_merchant():
     Merchant is priced as the step above Pro's allowance, not a separate
     track. A Merchant member failing an is_pro() gate would be a paying
     member locked out of something their own Pro peers get, in the opposite
-    direction from the mistake CLAUDE.md already locks against.
+    direction from the mistake the project brief already locks against.
     """
     assert is_pro(Tier.PRO)
     assert is_pro(Tier.MERCHANT)
@@ -73,7 +73,7 @@ def test_storefront_listing_cap_allows_under_the_cap_on_pro():
 def test_storefront_listing_cap_denies_at_the_cap_on_pro():
     decision = check_storefront_listing_cap(Tier.PRO, STOREFRONT_PRO_LISTING_CAP)
     assert not decision.allowed
-    # Never "upgrade to Pro" to a member who is already Pro. CLAUDE.md locks
+    # Never "upgrade to Pro" to a member who is already Pro. The project brief locks
     # this, and it has already been caught twice under this exact phrasing.
     assert "upgrade to pro" not in decision.reason.lower()
     assert "Merchant" in decision.reason
